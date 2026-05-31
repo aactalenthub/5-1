@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AAC-PSS_U05_權威機構資料來源</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a08;
+    --bg2: #111108;
+    --bg3: #181810;
+    --border: rgba(212,175,55,0.08);
+    --border2: rgba(212,175,55,0.18);
+    --text: #f0e8c8;
+    --text2: #9a8f6a;
+    --text3: #5a5240;
+    --accent: #d4af37;
+    --accent2: #b8960c;
+    --free: #d4af37;
+    --free-bg: rgba(212,175,55,0.08);
+    --free-border: rgba(212,175,55,0.25);
+    --paid: #e8c98a;
+    --paid-bg: rgba(232,201,138,0.07);
+    --paid-border: rgba(232,201,138,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── CONTROLS STICKY WRAPPER ── */
+  .controls-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,8,0.96);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border2);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 40px 60px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text);
+    margin-bottom: 20px;
+    letter-spacing: -0.02em;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 560px;
+    line-height: 1.8;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat { }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    padding: 14px 40px;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+  }
+  .search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.4;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 9px 12px 9px 36px;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .search-wrap input:focus { border-color: rgba(212,175,55,0.5); }
+
+  .filter-pills { display: flex; gap: 6px; }
+  .pill {
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+    background: var(--bg3);
+    transition: all .15s;
+    user-select: none;
+    letter-spacing: 0.02em;
+  }
+  .pill:hover { border-color: var(--border2); color: var(--text); }
+  .pill.active-all { background: var(--accent); border-color: var(--accent); color: #0a0a08; font-weight: 500; }
+  .pill.active-free { background: var(--free-bg); border-color: var(--free-border); color: var(--free); }
+  .pill.active-paid { background: var(--paid-bg); border-color: var(--paid-border); color: var(--paid); }
+
+  /* ── MAIN GRID ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 40px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sector {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .sector:hover { border-color: var(--border2); }
+
+  .sector-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    background: var(--bg2);
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .sector-header:hover { background: var(--bg3); }
+
+  .sector-icon {
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg3);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .sector-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+    letter-spacing: 0.01em;
+  }
+
+  .sector-badges { display: flex; gap: 6px; }
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .badge-free { background: var(--free-bg); color: var(--free); border: 1px solid var(--free-border); }
+  .badge-paid { background: var(--paid-bg); color: var(--paid); border: 1px solid var(--paid-border); }
+
+  .chevron {
+    width: 16px;
+    height: 16px;
+    color: var(--text3);
+    transition: transform 0.25s cubic-bezier(.4,0,.2,1);
+    flex-shrink: 0;
+  }
+  .chevron.open { transform: rotate(90deg); }
+
+  .sector-body {
+    display: none;
+    border-top: 1px solid var(--border);
+  }
+  .sector-body.open { display: block; }
+
+  .tier-section { padding: 16px 20px; }
+  .tier-section + .tier-section { border-top: 1px solid var(--border); }
+
+  .tier-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tier-heading-free { color: var(--free); }
+  .tier-heading-paid { color: var(--paid); }
+  .tier-line {
+    flex: 1;
+    height: 1px;
+  }
+  .tier-line-free { background: var(--free-border); }
+  .tier-line-paid { background: var(--paid-border); }
+
+  .source-list { display: flex; flex-direction: column; gap: 1px; }
+
+  .source-row {
+    display: grid;
+    grid-template-columns: 200px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    transition: background 0.12s;
+  }
+  .source-row:hover { background: var(--bg3); }
+
+  .source-name {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .source-desc {
+    font-size: 14px;
+    color: var(--text2);
+  }
+
+  .source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    padding: 5px 12px;
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    background: rgba(212,175,55,0.06);
+    transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+  }
+  .source-link:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0a0a08;
+    box-shadow: 0 0 12px rgba(212,175,55,0.35);
+  }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--text3);
+    font-size: 14px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .footer-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .hero, .controls, main, footer { padding-left: 20px; padding-right: 20px; }
+    .stats-row { gap: 24px; flex-wrap: wrap; }
+    .source-row { grid-template-columns: 1fr auto; grid-template-rows: auto auto; }
+    .source-desc { grid-column: 1; }
+    .source-link { grid-row: 1; grid-column: 2; }
+    h1 { font-size: 32px; }
+    .hero { padding-top: 48px; }
+  }
+
+  /* ── ENTRY ANIMATION ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero, .controls { animation: fadeUp .5s ease both; }
+  .hero { animation-delay: .05s; }
+  .controls { animation-delay: .15s; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-tag">顧問級問題解決力：7 步驟搞定職場難題</div>
+  <h1>資深顧問的<br><em>權威資料來源</em></h1>
+  <p class="hero-sub">9 大產業領域、50+ 個資料庫與報告來源。</p>
+</section>
+
+<div class="controls-sticky">
+  <div class="controls">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="6" cy="6" r="4.5" stroke="#d4af37" stroke-width="1.2"/>
+        <path d="M9.5 9.5L12.5 12.5" stroke="#d4af37" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <input type="text" id="search" placeholder="搜尋資料來源或描述..." oninput="render()">
+    </div>
+    <div class="filter-pills">
+      <span class="pill active-all" onclick="setFilter('all')" id="pill-all">全部</span>
+      <span class="pill" onclick="setFilter('free')" id="pill-free">免費</span>
+      <span class="pill" onclick="setFilter('paid')" id="pill-paid">付費</span>
+    </div>
+  </div>
+</div>
+
+<main id="sectors-list"></main>
+
+<footer>
+  <div class="footer-note">資料更新：2026 · 連結僅供參考，請以各平台實際頁面為準</div>
+  <div class="footer-note">56 sources across 9 sectors</div>
+</footer>
+
+<script>
+const DATA = [
+  {
+    id: 'macro', icon: '🌐', title: '總體經濟 & 金融市場',
+    free: [
+      { name: 'IMF World Economic Outlook', desc: '全球GDP、通脹、貿易預測', url: 'https://www.imf.org/en/Publications/WEO' },
+      { name: 'IMF Data Portal', desc: '多國經濟指標資料庫', url: 'https://data.imf.org/en' },
+      { name: 'World Bank Open Data', desc: '發展中國家經濟與社會數據', url: 'https://data.worldbank.org' },
+      { name: 'OECD Data', desc: '已開發國家政策與統計', url: 'https://data.oecd.org' },
+      { name: 'BIS Statistics', desc: '全球銀行業、外匯與衍生品', url: 'https://www.bis.org/statistics/dataportal/index.htm' },
+      { name: 'US Federal Reserve (FRED)', desc: '美國經濟時序資料庫', url: 'https://fred.stlouisfed.org' },
+      { name: 'ECB Data Portal', desc: '歐元區金融統計', url: 'https://data.ecb.europa.eu/' },
+      { name: 'McKinsey Global Economics Intelligence', desc: '每月全球宏觀摘要（免費訂閱）', url: 'https://www.mckinsey.com/capabilities/strategy-and-corporate-finance/our-insights/global-economics-intelligence' },
+    ],
+    paid: [
+      { name: 'Bloomberg Terminal', desc: '即時金融市場、企業財務全覆蓋', url: 'https://www.bloomberg.com/professional/solution/bloomberg-terminal' },
+      { name: 'Refinitiv Eikon (LSEG)', desc: 'M&A交易數據、固定收益', url: 'https://www.lseg.com/en/data-analytics/financial-data' },
+      { name: 'FactSet', desc: '財務模型、估值、投資組合分析', url: 'https://www.factset.com' },
+      { name: 'S&P Capital IQ Pro', desc: '企業數據、私募、信用評級', url: 'https://www.spglobal.com/market-intelligence/en/solutions/products/sp-capital-iq-pro' },
+    ]
+  },
+  {
+    id: 'tech', icon: '💻', title: '科技 & 數位轉型',
+    free: [
+      { name: 'McKinsey Technology Trends Outlook', desc: '年度科技趨勢全面報告', url: 'https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/the-top-trends-in-tech' },
+      { name: 'McKinsey Global Institute (MGI)', desc: 'AI、自動化、生產力研究', url: 'https://www.mckinsey.com/mgi/overview' },
+      { name: 'OECD Digital Economy Outlook', desc: '數位政策、AI治理框架', url: 'https://www.oecd.org/en/publications/oecd-digital-economy-outlook_f0b5c251-en.html' },
+      { name: 'Stanford HAI AI Index', desc: '年度AI進展、投資與政策數據', url: 'https://hai.stanford.edu/ai-index' },
+    ],
+    paid: [
+      { name: 'Gartner Research', desc: 'IT魔力象限、Hype Cycle評估', url: 'https://www.gartner.com/en/research' },
+      { name: 'IDC Research', desc: '硬體、雲端、半導體市場規模', url: 'https://www.idc.com/research' },
+      { name: 'Forrester Research', desc: '企業科技採購、客戶體驗', url: 'https://www.forrester.com/research' },
+      { name: 'AlphaSense', desc: '投行研究報告聚合搜索平台', url: 'https://www.alpha-sense.com' },
+    ]
+  },
+  {
+    id: 'consumer', icon: '🛍️', title: '消費品 & 零售 (FMCG)',
+    free: [
+      { name: 'McKinsey State of the Consumer', desc: '消費者信心與支出調查', url: 'https://www.mckinsey.com/industries/consumer-packaged-goods/our-insights/state-of-the-consumer' },
+      { name: 'Eurostat Household Data', desc: '歐洲家庭收支、消費統計', url: 'https://ec.europa.eu/eurostat/data/database' },
+      { name: 'US Census Retail Sales', desc: '美國月度零售銷售數據', url: 'https://www.census.gov/retail/index.html' },
+    ],
+    paid: [
+      { name: 'Euromonitor Passport', desc: '全球消費品市場規模與份額', url: 'https://www.euromonitor.com/passport' },
+      { name: 'Nielsen IQ', desc: '零售掃描數據、家庭消費行為', url: 'https://nielseniq.com/global/en/solutions' },
+      { name: 'Kantar', desc: '品牌健康度、媒體與消費者研究', url: 'https://www.kantar.com/inspiration' },
+      { name: 'Mintel', desc: '消費者趨勢、新品上市追蹤', url: 'https://www.mintel.com' },
+      { name: 'NielsenIQ (GfK)', desc: '消費電子、家電市場數據', url: 'https://nielseniq.com/global/en/' },
+    ]
+  },
+  {
+    id: 'energy', icon: '⚡', title: '能源 & ESG & 氣候',
+    free: [
+      { name: 'IEA 國際能源署', desc: '能源轉型、各國能源統計', url: 'https://www.iea.org/data-and-statistics' },
+      { name: 'IRENA 再生能源總署', desc: '再生能源裝置容量、成本數據', url: 'https://www.irena.org/Data' },
+      { name: 'BloombergNEF 免費洞察', desc: 'NEV、電池、太陽能趨勢文章', url: 'https://about.bnef.com/blog' },
+      { name: 'UN SDG Data Portal', desc: '永續發展目標指標追蹤', url: 'https://unstats.un.org/sdgs/dataportal' },
+      { name: 'CDP 碳揭露數據', desc: '企業碳排放自願揭露資料庫', url: 'https://www.cdp.net/en/data' },
+      { name: 'MSCI ESG Ratings (部分免費)', desc: '上市公司ESG評分查詢', url: 'https://www.msci.com/data-and-analytics/sustainability-solutions/esg-ratings-climate-search-tool' },
+    ],
+    paid: [
+      { name: 'Wood Mackenzie', desc: '油氣、礦業、再生能源深度分析', url: 'https://www.woodmac.com' },
+      { name: 'BloombergNEF (全訂閱)', desc: '能源轉型完整數據與長期預測', url: 'https://about.bnef.com' },
+      { name: 'S&P Global Commodity Insights', desc: '能源商品價格、供需預測模型', url: 'https://www.spglobal.com/commodity-insights/en' },
+    ]
+  },
+  {
+    id: 'healthcare', icon: '🏥', title: '醫療健康 & 生命科學',
+    free: [
+      { name: 'WHO Global Health Observatory', desc: '全球疾病負擔、衛生系統數據', url: 'https://www.who.int/data/gho' },
+      { name: 'NIH PubMed', desc: '生醫學術研究文獻索引', url: 'https://pubmed.ncbi.nlm.nih.gov' },
+      { name: 'CMS Medicare Data', desc: '美國醫療支出與保險數據', url: 'https://www.cms.gov/data-research' },
+      { name: 'McKinsey Health Institute', desc: '醫療系統、健康經濟研究', url: 'https://www.mckinsey.com/mhi/our-insights' },
+    ],
+    paid: [
+      { name: 'IQVIA', desc: '藥品銷售、處方數據、臨床試驗', url: 'https://www.iqvia.com/solutions/real-world-evidence' },
+      { name: 'Evaluate Pharma', desc: '藥品市場預測與競爭格局', url: 'https://www.evaluate.com/products-services/evaluate-pharma' },
+      { name: 'GlobalData Healthcare', desc: '醫療設備、診斷市場分析', url: 'https://www.globaldata.com/store/industry/pharmaceuticals-and-healthcare-market/' },
+    ]
+  },
+  {
+    id: 'manufacturing', icon: '🏭', title: '製造業 & 供應鏈',
+    free: [
+      { name: '台灣主計總處', desc: '台灣工業生產、GDP統計', url: 'https://www.stat.gov.tw' },
+      { name: '中國國家統計局', desc: '中國製造業PMI、工業數據', url: 'https://www.stats.gov.cn' },
+      { name: 'US Census Manufacturing', desc: '美國製造業出貨量與庫存', url: 'https://www.census.gov/topics/business-economy/manufacturing/data.html' },
+      { name: 'WTO Trade Statistics', desc: '全球貿易流量、關稅數據', url: 'https://stats.wto.org' },
+    ],
+    paid: [
+      { name: 'S&P Global (IHS Markit)', desc: '汽車、化工、工業PMI深度數據', url: 'https://www.spglobal.com/en/' },
+      { name: 'Panjiva (S&P Global)', desc: '全球船運清單、貿易對手分析', url: 'https://panjiva.com' },
+      { name: 'Dun & Bradstreet', desc: '企業信用風險、供應鏈圖譜', url: 'https://www.dnb.com' },
+    ]
+  },
+  {
+    id: 'finance', icon: '🏦', title: '金融服務 & 投資',
+    free: [
+      { name: 'SEC EDGAR', desc: '美國上市公司財報與申報文件', url: 'https://www.sec.gov/cgi-bin/browse-edgar' },
+      { name: '台灣證交所公開資訊觀測站', desc: '台股財報、重大訊息', url: 'https://mops.twse.com.tw' },
+      { name: '香港交易所披露易', desc: '港股上市公司資訊揭露', url: 'https://www.hkexnews.hk' },
+      { name: 'Crunchbase (部分免費)', desc: '新創融資輪次、VC投資追蹤', url: 'https://www.crunchbase.com' },
+      { name: 'McKinsey Global Banking Review', desc: '年度全球銀行業績效報告', url: 'https://www.mckinsey.com/industries/financial-services/our-insights/global-banking-annual-review' },
+    ],
+    paid: [
+      { name: 'PitchBook', desc: '私募股權、創投、M&A完整數據', url: 'https://pitchbook.com' },
+      { name: 'Preqin', desc: '另類投資、私募基金業績追蹤', url: 'https://www.preqin.com' },
+      { name: 'Morningstar Direct', desc: '基金、ETF績效與評級', url: 'https://www.morningstar.com/business/products/direct' },
+    ]
+  },
+  {
+    id: 'realestate', icon: '🏢', title: '房地產 & 基礎設施',
+    free: [
+      { name: 'US Census Housing Starts', desc: '美國新屋開工、建築許可', url: 'https://www.census.gov/construction/nrc' },
+      { name: 'OECD Housing Data', desc: '各國房價、租金負擔指標', url: 'https://www.oecd.org/en/data/indicators/housing-prices.html' },
+      { name: '內政部不動產資訊平台', desc: '台灣不動產交易實價登錄', url: 'https://pip.moi.gov.tw' },
+    ],
+    paid: [
+      { name: 'CoStar / Altus', desc: '商辦、零售、工業不動產數據', url: 'https://www.costar.com' },
+      { name: 'MSCI Real Estate (IPD)', desc: '機構不動產投資績效指數', url: 'https://www.msci.com/our-solutions/real-assets' },
+    ]
+  },
+  {
+    id: 'strategy', icon: '📊', title: '跨產業策略 & 智庫研究',
+    free: [
+      { name: 'McKinsey Global Institute', desc: 'MGI全部報告免費下載', url: 'https://www.mckinsey.com/mgi/our-research' },
+      { name: 'McKinsey Quarterly', desc: '管理洞察、領導力、組織變革', url: 'https://www.mckinsey.com/quarterly/overview' },
+      { name: 'BCG Henderson Institute', desc: '策略與競爭研究（免費公開）', url: 'https://www.bcg.com/bcg-henderson-institute' },
+      { name: 'Bain Insights', desc: '行業洞察報告（免費公開）', url: 'https://www.bain.com/insights' },
+      { name: 'HBR Analytic Services (部分免費)', desc: '企業策略、管理學術研究', url: 'https://hbr.org/hbr-analytic-services' },
+    ],
+    paid: [
+      { name: 'MarketsandMarkets', desc: '新興市場規模與預測報告', url: 'https://www.marketsandmarkets.com' },
+      { name: 'Frost & Sullivan', desc: '工業、醫療、科技市場研究', url: 'https://www.frost.com' },
+    ]
+  },
+];
+
+let currentFilter = 'all';
+const openSectors = new Set();
+
+function setFilter(f) {
+  currentFilter = f;
+  ['all','free','paid'].forEach(x => {
+    const el = document.getElementById('pill-' + x);
+    el.className = 'pill' + (x === f ? ` active-${x}` : '');
+  });
+  render();
+}
+
+function toggleSector(id) {
+  if (openSectors.has(id)) openSectors.delete(id);
+  else openSectors.add(id);
+  render();
+}
+
+function sourceHTML(s) {
+  return `<div class="source-row">
+    <div class="source-name">${s.name}</div>
+    <div class="source-desc">${s.desc}</div>
+    <a class="source-link" href="${s.url}" target="_blank" rel="noopener">前往 ↗</a>
+  </div>`;
+}
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const container = document.getElementById('sectors-list');
+  let html = '';
+  let anyVisible = false;
+
+  DATA.forEach(sector => {
+    let freeSrc = sector.free.filter(s => !q || s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q));
+    let paidSrc = sector.paid.filter(s => !q || s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q));
+    if (currentFilter === 'paid') freeSrc = [];
+    if (currentFilter === 'free') paidSrc = [];
+    if (!freeSrc.length && !paidSrc.length) return;
+    anyVisible = true;
+
+    const isOpen = openSectors.has(sector.id) || !!q;
+    const badges = [
+      freeSrc.length ? `<span class="badge badge-free">免費 ${freeSrc.length}</span>` : '',
+      paidSrc.length ? `<span class="badge badge-paid">付費 ${paidSrc.length}</span>` : '',
+    ].join('');
+
+    html += `<div class="sector">
+      <div class="sector-header" onclick="toggleSector('${sector.id}')">
+        <div class="sector-icon">${sector.icon}</div>
+        <div class="sector-title">${sector.title}</div>
+        <div class="sector-badges">${badges}</div>
+        <svg class="chevron${isOpen ? ' open' : ''}" viewBox="0 0 16 16" fill="none">
+          <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="sector-body${isOpen ? ' open' : ''}">`;
+
+    if (freeSrc.length) {
+      html += `<div class="tier-section">
+        <div class="tier-heading tier-heading-free">免費公開 <div class="tier-line tier-line-free"></div></div>
+        <div class="source-list">${freeSrc.map(sourceHTML).join('')}</div>
+      </div>`;
+    }
+    if (paidSrc.length) {
+      html += `<div class="tier-section">
+        <div class="tier-heading tier-heading-paid">付費訂閱 <div class="tier-line tier-line-paid"></div></div>
+        <div class="source-list">${paidSrc.map(sourceHTML).join('')}</div>
+      </div>`;
+    }
+
+    html += `</div></div>`;
+  });
+
+  if (!anyVisible) {
+    html = `<div class="no-results">找不到符合「${document.getElementById('search').value}」的資料來源</div>`;
+  }
+
+  container.innerHTML = html;
+}
+
+render();
+</script>
+</body>
+</html>
